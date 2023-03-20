@@ -61,5 +61,6 @@ class Course(models.Model):
     def score(self) -> int:
         return 100
 
+
 class CourseAdmin(ModelAdmin):
     pass

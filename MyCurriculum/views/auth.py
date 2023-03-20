@@ -1,20 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.http import HttpRequest, HttpResponseRedirect
-from .forms import RegistrationForm, LoginForm
-from .models import random_student_code, User
-from django.contrib.auth import get_user_model, authenticate, login
+from ..forms import RegistrationForm, LoginForm
+from ..models import random_student_code, User
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.views.decorators.http import require_http_methods
 
 User: User = get_user_model()
 
 
+@require_http_methods(['GET'])
+def logout_view(request: HttpRequest):
+    if request.user.is_authenticated:
+        logout(request)
+    return HttpResponseRedirect(reverse('login-view'))
+
+
 @require_http_methods(['GET', 'POST'])
 def register_view(request: HttpRequest):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect("/")
     if request.method == "GET":
         form = RegistrationForm()
         return render(
             request,
-            "login/register.html",
+            "auth/register.html",
             context={
                 'form': form
             }
@@ -23,6 +32,7 @@ def register_view(request: HttpRequest):
         form = RegistrationForm(request.POST)
         if form.is_valid():
 
+            # Get a random student code.
             valid_code = False
             while not valid_code:
                 student_code = random_student_code()
@@ -39,11 +49,11 @@ def register_view(request: HttpRequest):
                 cleaned.get('password')
             )
             user.save()
-            return HttpResponseRedirect("/auth/login")
+            return HttpResponseRedirect(reverse('login-view'))
         else:
             return render(
                 request,
-                "login/register.html",
+                "auth/register.html",
                 context={
                     'form': form
                 }
@@ -54,11 +64,13 @@ def register_view(request: HttpRequest):
 
 @require_http_methods(['GET', 'POST'])
 def login_view(request: HttpRequest):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect("/")
     if request.method == "GET":
         form = LoginForm()
         return render(
             request,
-            'login/login.html',
+            'auth/login.html',
             context={
                 'form': form
             }
@@ -73,10 +85,10 @@ def login_view(request: HttpRequest):
                 password=cleaned.get('password')
             )
             if user is None:
-                form.add_error('username', 'No users for this username/password combination.')
+                form.add_error('student_code', 'No users for this username/password combination.')
                 return render(
                     request,
-                    'login/register.html',
+                    'auth/login.html',
                     context={
                         'form': form
                     }
@@ -84,5 +96,13 @@ def login_view(request: HttpRequest):
             else:
                 login(request, user)
                 return HttpResponseRedirect("/")
+        else:
+            return render(
+                request,
+                'auth/login.html',
+                context={
+                    'form': form
+                }
+            )
     else:
         raise RuntimeError('Unexpected HTTP method for login_view!')

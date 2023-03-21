@@ -33,9 +33,14 @@ header nav li a {
     display: flex;
     padding: 24px;
 }
-button, .submit-button {
+button, .submit-button, .link-button {
     background-color: lightskyblue;
     color: white;
     border: none;
     padding: 8px;
+}
+
+.link-button {
+    text-decoration: none;
+    width: fit-content;
 }

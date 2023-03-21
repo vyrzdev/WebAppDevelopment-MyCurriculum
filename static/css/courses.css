@@ -1,0 +1,19 @@
+main {
+    padding: 24px;
+}
+
+h2 {
+    color: white;
+    margin-block-start: 0px;
+}
+
+.course-list {
+    display: grid;
+    grid-gap: 24px;
+    grid-template-columns: repeat(auto-fill, 398px);
+}
+
+.course-card {
+    width: 350px;
+    flex-direction: column;
+}

@@ -21,7 +21,7 @@ def course_list_view(request: HttpRequest):
         request,
         'courses/list.html',
         context={
-            'courses': [courses[0], courses[0], courses[0], courses[0]],
+            'courses': courses,
             'next_page': page_number+1,
             'prev_page': page_number-1
         }

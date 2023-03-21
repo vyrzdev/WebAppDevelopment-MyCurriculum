@@ -14,25 +14,25 @@
     <body>
         <header>
             <h1>MyCurriculum</h1>
-        </header>
-        <nav>
-            <ul>
-                {% if user.is_authenticated %}
-                    {# TODO: update with URLs #}
-                    {% if user.permission_level == "student" %}
-                        <li><a href="#">Search Courses</a></li>
-                        <li><a href="#">My Timetable</a></li>
-                    {% elif user.permission_level == "moderator" %}
-                        <li><a href="#">Management</a></li>
-                        <li><a href="#">ModMail</a></li>
+            <nav>
+                <ul>
+                    {% if user.is_authenticated %}
+                        {# TODO: update with URLs #}
+                        {% if user.permission_level == "student" %}
+                            <li><a href="#">Search Courses</a></li>
+                            <li><a href="#">My Timetable</a></li>
+                        {% elif user.permission_level == "moderator" %}
+                            <li><a href="#">Management</a></li>
+                            <li><a href="#">ModMail</a></li>
+                        {% endif %}
+                        <li><a href="#">Manage Account</a></li>
+                    {% else %}
+                        <li><a href="{% url 'MyCurriculum:login-view' %}">Login</a></li>
+                        <li><a href="{% url 'MyCurriculum:register-view' %}">Register</a></li>
                     {% endif %}
-                    <li><a href="#">Manage Account</a></li>
-                {% else %}
-                    <li><a href="{% url 'MyCurriculum:login-view' %}">Login</a></li>
-                    <li><a href="{% url 'MyCurriculum:register-view' %}">Register</a></li>
-                {% endif %}
-            </ul>
-        </nav>
+                </ul>
+            </nav>
+        </header>
         <main>
           {% block body_block %}
           {% endblock %}

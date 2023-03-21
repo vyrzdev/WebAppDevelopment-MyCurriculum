@@ -1,3 +1,29 @@
+body {
+    margin: 0px;
+    font-family: "Arial";
+}
+header {
+    background-color: #003865;
+    color: white;
+    padding: 16px;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+header h1 {
+    margin-block: 0px;
+}
+header nav ul {
+    margin: 0px;
+}
+header nav li {
+    display: inline-block;
+    margin-left: 4px;
+}
+header nav li a {
+    color: white;
+    font-size: 20px;
+}
 .error-text {
     color: red;
 }

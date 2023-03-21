@@ -17,3 +17,4 @@ def session_view(request: HttpRequest, session_id: str):
             'session': session_query.first()
         }
     )
+

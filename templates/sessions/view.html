@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ session.course.course_code }} - Session</title>
+</head>
+<body>
+    <h1>This is a session view page.</h1>
+</body>
+</html>
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    {{ session.course.course_code }} - Session
+{% endblock %}
+
+{% block body_block %}
+    <h1> This is a placeholder session view page </h1>
+    <p>It should show further details about a session, and maybe a location view.</p>
+    <p>For now, it merely shows the attrs of a session</p>
+    <table>
+        <tr>
+            <td>Start</td>
+            <td>{{ session.start }}</td>
+        </tr>
+        <tr>
+            <td>End</td>
+            <td>{{ session.end }}</td>
+        </tr>
+    </table>
+{% endblock %}

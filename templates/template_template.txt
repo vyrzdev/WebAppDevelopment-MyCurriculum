@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+   # PUT TITLE HERE
+{% endblock %}
+
+{% block body_block %}
+    # PUT CONTENT HERE
+{% endblock %}

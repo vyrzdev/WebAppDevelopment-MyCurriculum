@@ -1,5 +1,5 @@
-from django.http import HttpRequest, HttpResponse, Http404
-from django.shortcuts import render
+from django.http import HttpRequest, HttpResponse, Http404, HttpResponseRedirect
+from django.shortcuts import render, reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
@@ -21,14 +21,15 @@ def enroll_view(request: HttpRequest, course_code: str):
     )
 
     if enrollment_query.exists():
-        return HttpResponse("Enrollment already exists!")
+        return HttpResponseRedirect(reverse('MyCurriculum:enroll-summary-view'))
 
     new_enrollment = UserCourseEnrollment(
         user=user,
         course=course
     )
     new_enrollment.save()
-    return HttpResponse("Enrollment Created!")
+    return HttpResponseRedirect(reverse('MyCurriculum:enroll-summary-view'))
+
 
 @require_http_methods(['GET'])
 @login_required
@@ -45,11 +46,12 @@ def unroll_view(request: HttpRequest, course_code: str):
         user=user
     )
     if not enrollment_query.exists():
-        return HttpResponse("You arent enrolled!")
+        return HttpResponseRedirect(reverse('MyCurriculum:enroll-summary-view'))
 
     enrollment = enrollment_query.first()
     enrollment.delete()
-    return HttpResponse("Enrollment Deleted!")
+    return HttpResponseRedirect(reverse('MyCurriculum:enroll-summary-view'))
+
 
 @require_http_methods(['GET'])
 @login_required

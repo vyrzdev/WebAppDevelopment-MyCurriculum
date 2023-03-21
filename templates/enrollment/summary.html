@@ -6,7 +6,11 @@
 {% endblock %}
 
 {% block body_block %}
-    {% for enrollment in enrollments %}
-        <p>{{ enrollment.course.course_code }} - {{ enrollment.course.title }} - <a href="/unroll/{{ enrollment.course.course_code }}">Unroll</a></p>
-    {% endfor %}
+    {% if enrollments %}
+        {% for enrollment in enrollments %}
+            <p>{{ enrollment.course.course_code }} - {{ enrollment.course.title }} - <a href="/unroll/{{ enrollment.course.course_code }}">Unroll</a></p>
+        {% endfor %}
+    {% else %}
+        <p>No enrollments, find some <a href="/courses">courses</a>?</p>
+    {% endif %}
 {% endblock %}

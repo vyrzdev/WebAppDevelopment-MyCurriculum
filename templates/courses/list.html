@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+</head>
+<body>
+    {% if courses %}
+        {% for course in courses %}
+            <div class="course-card">
+                {{ course.title }}
+                <hr>
+                <a href="/course/{{ course.course_code }}">View Course</a>
+                <a href="/enroll/{{ course.course_code }}">Enroll</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No courses found.</p>
+    {% endif %}
+    {% if prev_page >= 0 %}
+        <a href="/courses?page={{ prev_page }}">Previous Page</a>
+    {% endif %}
+    <a href="/courses?page={{ next_page }}">Next Page</a>
+</body>
+</html>

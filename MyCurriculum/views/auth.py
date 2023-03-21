@@ -12,13 +12,13 @@ User: User = get_user_model()
 def logout_view(request: HttpRequest):
     if request.user.is_authenticated:
         logout(request)
-    return HttpResponseRedirect(reverse('login-view'))
+    return HttpResponseRedirect(reverse('MyCurriculum:login-view'))
 
 
 @require_http_methods(['GET', 'POST'])
 def register_view(request: HttpRequest):
     if request.user.is_authenticated:
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect(reverse("MyCurriculum:course-list-view"))
     if request.method == "GET":
         form = RegistrationForm()
         return render(
@@ -49,7 +49,7 @@ def register_view(request: HttpRequest):
                 cleaned.get('password')
             )
             user.save()
-            return HttpResponseRedirect(reverse('login-view'))
+            return HttpResponseRedirect(reverse('MyCurriculum:login-view'))
         else:
             return render(
                 request,
@@ -65,7 +65,7 @@ def register_view(request: HttpRequest):
 @require_http_methods(['GET', 'POST'])
 def login_view(request: HttpRequest):
     if request.user.is_authenticated:
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect(reverse("MyCurriculum:course-list-view"))
     if request.method == "GET":
         form = LoginForm()
         return render(
@@ -95,7 +95,7 @@ def login_view(request: HttpRequest):
                 )
             else:
                 login(request, user)
-                return HttpResponseRedirect("/")
+                return HttpResponseRedirect(reverse("MyCurriculum:course-list-view"))
         else:
             return render(
                 request,

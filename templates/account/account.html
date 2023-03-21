@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Manage Account
+{% endblock %}
+
+{% block page_styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/account.css' %}">
+{% endblock %}
+
+{% block body_block %}
+    <div class="card">
+        <div class="account-card-left">
+            <img class="account-profile-picture" src="https://picsum.photos/100" alt="Profile picture" width="100" height="100">
+            <h3>{{ user.student_code }}</h3>
+            <button>Change Profile Picture</button>
+        </div>
+        <div class="account-card-right">
+            <form method="post" action="/account" class="account-form">
+                {% csrf_token %}
+                <table>
+                    {{ form.as_table }}
+                </table>
+                <tr>
+                    <input type="submit" class="submit-button" value="Request Change">
+                    <input type="submit" class="submit-button" value="Change Password">
+                </tr>
+            </form>
+        </div>
+    </div>
+    <span class="error-text">{{ error_message }}</span>
+{% endblock %}

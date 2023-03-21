@@ -15,5 +15,6 @@ urlpatterns = [
     path("enroll/<str:course_code>", views.enrollment.enroll_view, name='enroll-view'),
     path("unroll/<str:course_code>", views.enrollment.unroll_view, name='unroll-view'),
     path("enrollments", views.enrollment.enroll_summary_view, name='enroll-summary-view'),
-
+    # Account Views
+    path("account", views.account.manage_account_view, name='manage-account-view'),
 ]

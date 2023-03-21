@@ -1,0 +1,14 @@
+main {
+    margin: 5%;
+}
+.account-card-left {
+    flex: 1;
+    text-align: center;
+}
+.account-profile-picture {
+    border-radius: 50px;
+}
+.account-card-right {
+    flex: 4;
+    margin-left: 24px;
+}

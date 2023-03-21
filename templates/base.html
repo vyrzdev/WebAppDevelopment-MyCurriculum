@@ -2,14 +2,16 @@
 {% load static %}
 <html>
     <head>
-      <title>
-          MyCurriculum -
-          {% block title_block %}
-              The easy way to manage your curriculum
-          {% endblock %}
-      </title>
-      <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-      <script src="{% static 'js/jquery.js' %}"></script>
+        <title>
+            MyCurriculum -
+            {% block title_block %}
+                The easy way to manage your curriculum
+            {% endblock %}
+        </title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+        {% block page_styles %}
+        {% endblock %}
+        <script src="{% static 'js/jquery.min.js' %}"></script>
     </head>
     <body>
         <header>
@@ -25,7 +27,7 @@
                             <li><a href="#">Management</a></li>
                             <li><a href="#">ModMail</a></li>
                         {% endif %}
-                        <li><a href="#">Manage Account</a></li>
+                        <li><a href="{% url 'MyCurriculum:manage-account-view' %}">Manage Account</a></li>
                     {% else %}
                         <li><a href="{% url 'MyCurriculum:login-view' %}">Login</a></li>
                         <li><a href="{% url 'MyCurriculum:register-view' %}">Register</a></li>

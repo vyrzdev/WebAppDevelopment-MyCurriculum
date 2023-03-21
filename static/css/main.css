@@ -1,6 +1,7 @@
 body {
     margin: 0px;
     font-family: "Arial";
+    background-color: lightslategrey;
 }
 header {
     background-color: #003865;
@@ -26,4 +27,15 @@ header nav li a {
 }
 .error-text {
     color: red;
+}
+.card {
+    background-color: white;
+    display: flex;
+    padding: 24px;
+}
+button, .submit-button {
+    background-color: lightskyblue;
+    color: white;
+    border: none;
+    padding: 8px;
 }

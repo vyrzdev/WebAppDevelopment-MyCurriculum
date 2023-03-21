@@ -5,11 +5,24 @@
    {{ course.course_code }} - {{ course.title }}
 {% endblock %}
 
+{% block page_styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/courses/view.css' %}">
+{% endblock %}
+
 {% block body_block %}
-    <h1>{{ course.title }}</h1>
-    <h3>{{ course.course_code }}</h3>
-    <hr>
-    <p>
-        {{ course.description }}
-    </p>
+    <div class="course-header">
+        <div class="course-header-text-container">
+            <div class="course-header-text">
+                <h1>{{ course.title }}</h1>
+                <h3>{{ course.course_code }}</h3>
+            </div>
+        </div>
+        <div class="course-tabs">
+            <a class="link-button course-tab-button course-tab-button-active" href="#">Info</a>
+            <a class="link-button course-tab-button" href="#">Comments</a>
+        </div>
+    </div>
+    <div class="card">
+        <p>{{ course.description }}</p>
+    </div>
 {% endblock %}

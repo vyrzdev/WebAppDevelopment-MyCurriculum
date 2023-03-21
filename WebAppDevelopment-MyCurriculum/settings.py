@@ -82,6 +82,9 @@ DATABASES = {
     }
 }
 
+# Login URL to redirect to if user tries to access a login-restricted
+# page and is not logged in
+LOGIN_URL = 'MyCurriculum:login-view'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

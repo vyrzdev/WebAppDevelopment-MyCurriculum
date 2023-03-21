@@ -1,9 +1,11 @@
-from django.http import HttpRequest, HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpRequest, Http404, HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth import get_user_model
+from ..models import Course, UserCourseEnrollment, User
 
-from ..models import Course, UserCourseEnrollment
+User: User = get_user_model()  # Sneaky type hint magic
 
 
 @require_http_methods(['GET'])
@@ -13,8 +15,8 @@ def enroll_view(request: HttpRequest, course_code: str):
     if not course_query.exists():
         raise Http404("No course with that ID!")
 
-    course = course_query.first()
-    user = request.user
+    course: Course = course_query.first()
+    user: User = request.user
     enrollment_query = UserCourseEnrollment.objects.filter(
         user=user,
         course=course
@@ -38,8 +40,8 @@ def unroll_view(request: HttpRequest, course_code: str):
     if not course_query.exists():
         raise Http404("No course with that ID!")
 
-    course = course_query.first()
-    user = request.user
+    course: Course = course_query.first()
+    user: User = request.user
 
     enrollment_query = UserCourseEnrollment.objects.filter(
         course=course,
@@ -48,7 +50,7 @@ def unroll_view(request: HttpRequest, course_code: str):
     if not enrollment_query.exists():
         return HttpResponseRedirect(reverse('MyCurriculum:enroll-summary-view'))
 
-    enrollment = enrollment_query.first()
+    enrollment: UserCourseEnrollment = enrollment_query.first()
     enrollment.delete()
     return HttpResponseRedirect(reverse('MyCurriculum:enroll-summary-view'))
 
@@ -56,7 +58,7 @@ def unroll_view(request: HttpRequest, course_code: str):
 @require_http_methods(['GET'])
 @login_required
 def enroll_summary_view(request: HttpRequest):
-    user = request.user
+    user: User = request.user
     enrollment_query = UserCourseEnrollment.objects.filter(
         user=user
     )

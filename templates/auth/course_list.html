@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Course List</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Course List
+{% endblock %}
+
+{% block body_block %}
     <h1>Below is a list of all our available courses!</h1>
     {{ course_list.title }}
-</body>
-</html>
+{% endblock %}

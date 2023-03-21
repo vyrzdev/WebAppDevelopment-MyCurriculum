@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Enrollments</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Enrollments
+{% endblock %}
+
+{% block body_block %}
     {% for enrollment in enrollments %}
         <p>{{ enrollment.course.course_code }} - {{ enrollment.course.title }} - <a href="/unroll/{{ enrollment.course.course_code }}">Unroll</a></p>
     {% endfor %}
-</body>
-</html>
+{% endblock %}

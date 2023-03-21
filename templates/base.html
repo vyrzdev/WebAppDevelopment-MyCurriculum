@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+      <title>
+          MyCurriculum -
+          {% block title_block %}
+              The easy way to manage your curriculum
+          {% endblock %}
+      </title>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+      <script src="{% static 'js/jquery.js' %}"></script>
+    </head>
+    <body>
+        <header>
+            <h1>MyCurriculum</h1>
+        </header>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                    {# TODO: update with URLs #}
+                    {% if user.permission_level == "student" %}
+                        <li><a href="#">Search Courses</a></li>
+                        <li><a href="#">My Timetable</a></li>
+                    {% elif user.permission_level == "moderator" %}
+                        <li><a href="#">Management</a></li>
+                        <li><a href="#">ModMail</a></li>
+                    {% endif %}
+                    <li><a href="#">Manage Account</a></li>
+                {% else %}
+                    <li><a href="{% url 'MyCurriculum:login-view' %}">Login</a></li>
+                    <li><a href="{% url 'MyCurriculum:register-view' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <main>
+          {% block body_block %}
+          {% endblock %}
+        </main>
+    </body>
+</html>

@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+app_name = "MyCurriculum"
+
 urlpatterns = [
     path("auth/register", views.auth.register_view, name='register-view'),
     path("auth/login", views.auth.login_view, name='login-view'),

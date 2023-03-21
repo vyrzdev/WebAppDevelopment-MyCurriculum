@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+Login
+{% endblock %}
+
+{% block body_block %}
     <form method="post" action="/auth/login" class="login-form">
         {% csrf_token %}
         <table>
@@ -13,5 +14,4 @@
         <tr><input type="submit" value="Submit"></tr>
     </form>
     <span class="error-text">{{ error_message }}</span>
-</body>
-</html>
+{% endblock %}

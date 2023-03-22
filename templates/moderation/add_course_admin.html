@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Moderation - Add Course Admin
+{% endblock %}
+
+{% block body_block %}
+    <div class="create-course-form">
+        <form action="/moderation/course/add_admin/{{ course.course_code }}" method="post">
+            {% csrf_token %}
+            <table>
+                {{ add_course_admin_form.as_table }}
+            </table>
+            <tr><input type="submit" value="Submit"></tr>
+        </form>
+    </div>
+{% endblock %}

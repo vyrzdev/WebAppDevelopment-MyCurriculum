@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Manage Admins - {{ course.course_code }}
+{% endblock %}
+
+{% block body_block %}
+    <a href="/moderation/course/add_admin/{{ course.course_code }}">Add Admin</a>
+    {% for admin in admins %}
+        <span>{{ admin.user.student_code }} - {{ admin.user.get_full_name }}</span>
+        <a href="/moderation/course/remove_admin/{{ course.course_code }}/{{ admin.user.student_code }}">Remove Admin</a>
+    {% endfor %}
+{% endblock %}

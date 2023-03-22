@@ -21,5 +21,4 @@ urlpatterns = [
     path("moderation/courses", views.moderation.moderation_manage_courses_view, name="moderation-manage-courses-view"),
     path("moderation/courses/create", views.moderation.create_course_view, name="moderation-create-course-view"),
     path("moderation/courses/delete/<str:course_code>", views.moderation.delete_course_view, name="moderation-delete-course-view"),
-
 ]

@@ -12,6 +12,7 @@
             <span>{{ course.course_code }} - {{ course.title }}</span>
             <a href="/course/manage/{{ course.course_code }}">Manage</a>
             <a href="/moderation/courses/delete/{{ course.course_code }}">Delete</a>
+            <a href="/moderation/course/manage_admins/{{ course.course_code }}">Manage Admins</a>
        </div>
    {% endfor %}
 

@@ -5,7 +5,6 @@ from ..models import Course
 
 PER_PAGE = 20
 
-
 @require_http_methods(['GET'])
 def course_list_view(request: HttpRequest):
     # Get page number

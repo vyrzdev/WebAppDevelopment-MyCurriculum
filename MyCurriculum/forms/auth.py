@@ -42,16 +42,16 @@ class LoginForm(forms.Form):
     )
 
 class ManageAccountForm(forms.Form):
-    permission_level = forms.CharField(
-        max_length=DEFAULT_MAX_LENGTH,
-        required=True,
-        disabled=True,
-        label="User Type"
-    )
+#     permission_level = forms.CharField(
+#         max_length=DEFAULT_MAX_LENGTH,
+#         required=True,
+#         disabled=True,
+#         label="User Type"
+#     )
     first_name = forms.CharField(max_length=DEFAULT_MAX_LENGTH, required=True)
     last_name = forms.CharField(max_length=DEFAULT_MAX_LENGTH, required=True)
-    email_address: str = forms.CharField(
-        max_length=DEFAULT_MAX_LENGTH,
-        required=True,
-        disabled=True
-    )
+    # email_address: str = forms.CharField(
+    #     max_length=DEFAULT_MAX_LENGTH,
+    #     required=True,
+    #     disabled=True
+    # )

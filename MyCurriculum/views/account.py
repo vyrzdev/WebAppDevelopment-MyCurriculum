@@ -25,6 +25,9 @@ def manage_account_view(request: HttpRequest):
         form = ManageAccountForm(request.POST)
         if form.is_valid():
             # Create ModMail with details of name/profile picture change
+            # TODO: Fix this shit; Probably allow user to edit name, and password alone
+            # and don't allow user to edit permission level at all.
+            # TODO: Add profile-picture support
             return HttpResponseRedirect(reverse('MyCurriculum:manage-account-view'))
         else:
             return render(

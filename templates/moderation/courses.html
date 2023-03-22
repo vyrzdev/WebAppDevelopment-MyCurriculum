@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Moderation - Courses
+{% endblock %}
+
+{% block body_block %}
+   {% for course in courses %}
+       <div class="course-card">
+            <span>{{ course.course_code }} - {{ course.title }}</span>
+            <a href="/course/manage/{{ course.course_code }}">Manage</a>
+            <a href="/moderation/courses/delete/{{ course.course_code }}">Delete</a>
+       </div>
+   {% endfor %}
+    <div class="create-course-form">
+        <form action="/moderation/courses/create" method="post">
+            {% csrf_token %}
+            <table>
+                {{ create_course_form.as_table }}
+            </table>
+            <tr><input type="submit" value="Submit"></tr>
+        </form>
+    </div>
+{% endblock %}

@@ -1,7 +1,9 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
-from .models import student_code_valid
+from ..models import student_code_valid, User
+
+User: User = get_user_model()
 
 DEFAULT_MAX_LENGTH = 128
 

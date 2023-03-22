@@ -17,4 +17,6 @@ urlpatterns = [
     path("enrollments", views.enrollment.enroll_summary_view, name='enroll-summary-view'),
     # Account Views
     path("account", views.account.manage_account_view, name='manage-account-view'),
+    path("moderation", views.moderation.moderation_index_view, name='moderation-index-view'),
+    path("moderation/courses", views.moderation.moderation_manage_courses_view, name="moderation-manage-courses-view"),
 ]

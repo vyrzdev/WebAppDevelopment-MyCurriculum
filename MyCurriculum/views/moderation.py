@@ -2,6 +2,8 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpRequest, Http404
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
+
+from ..forms.moderation import CreateCourseForm
 from ..models import User
 
 from typing import Callable
@@ -29,4 +31,17 @@ def moderation_index_view(request: HttpRequest):
     return render(
         request,
         'moderation/index.html',
+    )
+
+
+@require_http_methods(["GET"])
+@require_admin
+def moderation_manage_courses_view(request: HttpRequest):
+    create_course_form = CreateCourseForm()
+    return render(
+        request,
+        'moderation/courses.html',
+        context={
+            'create_course_form': create_course_form
+        }
     )

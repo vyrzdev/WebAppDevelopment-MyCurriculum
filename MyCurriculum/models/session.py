@@ -2,9 +2,7 @@ from django.db import models
 from django.contrib.admin import ModelAdmin
 from .course import Course
 import datetime
-from uuid import uuid4
-
-generate_session_id = lambda: str(uuid4())
+import uuid
 
 
 class CourseSession(models.Model):
@@ -13,7 +11,7 @@ class CourseSession(models.Model):
         unique=True,
         blank=False,
         editable=False,
-        default=generate_session_id
+        max_length=64
     )
 
     course: Course = models.ForeignKey(

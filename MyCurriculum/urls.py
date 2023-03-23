@@ -12,6 +12,9 @@ urlpatterns = [
     path("courses", views.courses.course_list_view, name="course-list-view"),
     path("course/<str:course_code>", views.courses.course_view, name="course-view"),
     path("course/manage/<str:course_code>", views.courses.manage_course_view, name='manage-course-view'),
+    path("course/manage_sessions/<str:course_code>", views.courses.manage_course_sessions_view, name='manage-course-sessions-view'),
+    path("course/add_session/<str:course_code>", views.courses.add_course_session_view, name='add-course-session-view'),
+
     # Enrollment Views
     path("enroll/<str:course_code>", views.enrollment.enroll_view, name='enroll-view'),
     path("unroll/<str:course_code>", views.enrollment.unroll_view, name='unroll-view'),

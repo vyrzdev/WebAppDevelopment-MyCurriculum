@@ -25,4 +25,10 @@
     <div class="card">
         <p>{{ course.description }}</p>
     </div>
+    <hr>
+    <div class="course-sessions">
+        {% for session in sessions %}
+            <span>{{ session.start }} - {{ session.end }}</span>
+        {% endfor %}
+    </div>
 {% endblock %}

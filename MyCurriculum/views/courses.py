@@ -131,6 +131,7 @@ def manage_course_sessions_view(request: HttpRequest, course_code: str):
         request,
         'courses/manage_sessions.html',
         context={
+            'course': course,
             'sessions': course_session_query.all()[(page_number*PER_PAGE):((page_number*PER_PAGE)+PER_PAGE)],
             'next_page': page_number+1,
             'prev_page': page_number-1
@@ -166,17 +167,36 @@ def add_course_session_view(request: HttpRequest, course_code: str):
         )
     else:
         add_course_session_form = AddCourseSessionForm(request.POST)
-        add_course_session_form.clean()
-        cleaned = add_course_session_form.cleaned_data
-        if CourseSession.objects.filter(
-            course=course,
-            end__gte=cleaned.get('start'),
-            start__lte=cleaned.get('end')
-        ).exists():
-            add_course_session_form.add_error(
-                field=None,
-                error="A CourseSession overlapping this already exists!"
+        if add_course_session_form.is_valid():
+            cleaned = add_course_session_form.cleaned_data
+            if CourseSession.objects.filter(
+                course=course,
+                end__gte=cleaned.get('start'),
+                start__lte=cleaned.get('end')
+            ).exists():
+                add_course_session_form.add_error(
+                    field=None,
+                    error="A CourseSession overlapping this already exists!"
+                )
+                return render(
+                    request,
+                    'courses/add_session.html',
+                    context={
+                        'course': course,
+                        'add_course_session_form': add_course_session_form
+                    }
+
+                )
+
+            new_course_session = CourseSession(
+                course=course,
+                start=cleaned.get('start'),
+                end=cleaned.get('end')
             )
+
+            new_course_session.save()
+            return HttpResponseRedirect(f"/course/{course.course_code}")
+        else:
             return render(
                 request,
                 'courses/add_session.html',
@@ -184,15 +204,4 @@ def add_course_session_view(request: HttpRequest, course_code: str):
                     'course': course,
                     'add_course_session_form': add_course_session_form
                 }
-
             )
-
-        new_course_session = CourseSession(
-            course=course,
-            start=cleaned.get('start'),
-            end=cleaned.get('end')
-        )
-
-        new_course_session.save()
-        return HttpResponseRedirect(f"/course/{course.course_code}")
-

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Manage Sessions - {{ course.course_code }}
+{% endblock %}
+
+{% block body_block %}
+    <a href="/course/add_session/{{ course.course_code }}">Add Session</a>
+    {% for session in sessions %}
+        <span>{{ session.start }} - {{ session.end }}</span>
+        <a href="/course/remove_session/{{ course.course_code }}/{{ session.session_id }}">Remove Session</a>
+    {% endfor %}
+{% endblock %}

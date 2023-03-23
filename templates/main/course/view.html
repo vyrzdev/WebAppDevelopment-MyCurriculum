@@ -1,0 +1,102 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<!--
+    Available vars:
+    course <- (models.Course) Viewed Course
+    user <- (models.User) may be authenticated, may be anonymous
+    user.is_superuser <- (bool) Is Moderator
+    is_enrolled_in_course <- (bool) User is enrolled in course
+    is_admin_of_course <- (bool) User is admin of this course
+    sessions <- (List[models.CourseSession]) list of sessions for the course.
+    next_page <- next page int
+    previous_page <- previous page int
+    current_page <- current page int
+-->
+{% block head_block %}
+    <title>{{ course.course_code }} - {{ course.title }}</title>
+    <style>
+        .course-view-main {
+            margin: 0.5em;
+            padding: 0.5em;
+            background-color: lightblue;
+        }
+        .course-code {
+            color: gray;
+        }
+
+        .course-header {
+            border-bottom: black solid 2px;
+        }
+
+        .course-body {
+            border-bottom: black solid 2px;
+        }
+
+        .course-action-centre {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 1em;
+
+        }
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    <div class="course-view-main">
+        <div class="course-header">
+            <h1>{{ course.title }}</h1>
+            <h2 class="course-code">{{ course.course_code }}</h2>
+        </div>
+        {% if user.is_authenticated %}
+            <br>
+            <div class="course-action-centre">
+                {% if is_enrolled_in_course %}
+                    <a href="/course/{{ course.course_code }}/unroll" class="course-card-link">Unroll</a>
+                {% else %}
+                    <a href="/course/{{ course.course_code }}/enroll" class="course-card-link">Enroll</a>
+                {% endif %}
+                {% if is_admin_of_course %}
+                    <a href="/course/{{ course.course_code }}/manage" class="course-card-link">Manage Course</a>
+                {% endif %}
+                {% if user.is_superuser %}
+                    <a href="/moderation/course/{{ course.course_code }}/delete" class="course-card-link">Delete</a>
+                    <a href="/moderation/course/{{ course.course_code }}/admins" class="course-card-link">Manage Admins</a>
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="course-body">
+            <p>
+                {{ course.description }}
+            </p>
+        </div>
+        <div class="course-sessions">
+            {% if sessions %}
+                <h2 class="course-code">Timetable</h2>
+                {% for session in sessions %}
+                    <div class="course-card">
+                        <div class="course-card-left">
+                            <p class="course-card-title">
+                                {{ session.start }} - {{ session.end }}
+                            </p>
+                        </div>
+                        <div class="course-card-right">
+                            <a href="/course/{{ course.course_code }}/session/{{ session.session_id }}" class="course-card-link">View</a>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="course-sessions-nav">
+                    {% if previous_page %}
+                        <a href="/course/{{ course.course_code }}?page={{ previous_page }}" class="course-card-link">Previous Page</a>
+                    {% endif %}
+                    <p>Page: {{ current_page }}</p>
+                    {% if next_page %}
+                        <a href="/course/{{ course.course_code }}?page={{ next_page }}" class="course-card-link">Next Page</a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>There are no timetabled sessions for this course! Course admins can create sessions.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

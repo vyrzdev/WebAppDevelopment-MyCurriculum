@@ -9,14 +9,19 @@ from ..forms import ManageAccountForm
 User: User = get_user_model()  # Sneaky type hint magic
 
 
-@require_http_methods(['GET'])
+@require_http_methods(['GET', 'POST'])
 @login_required
 def manage_account_view(request: HttpRequest):
     if request.method == "GET":
-        form = ManageAccountForm()
+        form = ManageAccountForm(
+            initial={
+                'first_name': request.user.first_name,
+                'last_name': request.user.last_name
+            }
+        )
         return render(
             request,
-            "account/account.html",
+            "main/account/manage.html",
             context={
                 'form': form
             }
@@ -24,11 +29,11 @@ def manage_account_view(request: HttpRequest):
     elif request.method == "POST":
         form = ManageAccountForm(request.POST)
         if form.is_valid():
-            # Create ModMail with details of name/profile picture change
-            # TODO: Fix this shit; Probably allow user to edit name, and password alone
-            # and don't allow user to edit permission level at all.
-            # TODO: Add profile-picture support
-            return HttpResponseRedirect(reverse('MyCurriculum:manage-account-view'))
+            cleaned = form.cleaned_data
+            request.user.first_name = cleaned.get('first_name')
+            request.user.last_name = cleaned.get('last_name')
+            request.user.save()
+            return HttpResponseRedirect('/')
         else:
             return render(
                 request,

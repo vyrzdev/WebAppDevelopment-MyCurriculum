@@ -2,57 +2,103 @@ from django.shortcuts import render
 from django.http import HttpRequest, Http404, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from ..models import Course, CourseAdministrator, CourseSession
+from ..models import Course, CourseAdministrator, CourseSession, UserCourseEnrollment
 from ..forms import ManageCourseForm, AddCourseSessionForm
 
 PER_PAGE = 20
 
 
+# DONE
 @require_http_methods(['GET'])
 def course_list_view(request: HttpRequest):
     # Get page number
     try:
-        page_number = int(request.GET.get('page', default=0))
+        page = int(request.GET.get('page', default=1))
     except ValueError:
-        page_number = 0
+        page = 1
 
-    # Build queryset.
-    courses = Course.objects.all()[(page_number*PER_PAGE):((page_number*PER_PAGE)+PER_PAGE)]
+    courses_query = Course.objects.order_by('course_code')
+
+    if courses_query.count() > (PER_PAGE*page):
+        next_page = page+1
+    else:
+        next_page = None
+
+    if page > 1:
+        previous_page = page-1
+    else:
+        previous_page = None
 
     return render(
         request,
-        'courses/list.html',
+        'main/course/list.html',
         context={
-            'courses': courses,
-            'next_page': page_number+1,
-            'prev_page': page_number-1
+            'courses': courses_query.all()[(page-1)*PER_PAGE:(page*PER_PAGE)],
+            'next_page': next_page,
+            'previous_page': previous_page,
+            'current_page': page
         }
     )
 
-
+# DONE
 @require_http_methods(['GET'])
 def course_view(request: HttpRequest, course_code: str):
-    # Get page number
+    # Get Page number from URL params
     try:
-        page_number = int(request.GET.get('page', default=0))
+        page = int(request.GET.get('page', default=1))
     except ValueError:
-        page_number = 0
+        page = 1
 
-    course_query = Course.objects.filter(pk=course_code)
+    # Get course, throw 404 if non existent
+    course_query = Course.objects.filter(
+        pk=course_code
+    )
     if not course_query.exists():
-        raise Http404("No course with that code!")
+        raise Http404()
 
     course = course_query.first()
+
+    if request.user.is_authenticated:
+        is_enrolled_in_course = UserCourseEnrollment.objects.filter(
+            course=course,
+            user=request.user
+        ).exists()
+
+        is_admin_of_course = CourseAdministrator.objects.filter(
+            course=course,
+            user=request.user
+        ).exists()
+    else:
+        is_enrolled_in_course = False
+        is_admin_of_course = False
 
     course_session_query = CourseSession.objects.filter(
         course=course
     ).order_by('start')
+
+    session_count = course_session_query.count()
+    if session_count > (PER_PAGE * page):
+        next_page = page+1
+    else:
+        next_page = None
+
+    if page > 1:
+        previous_page = page - 1
+    else:
+        previous_page = None
+
     return render(
         request,
-        'courses/view.html',
+        'main/course/view.html',
         context={
             'course': course,
-            'sessions': course_session_query.all()[(page_number*PER_PAGE):((page_number*PER_PAGE)+PER_PAGE)]
+            'user': request.user,
+            'is_enrolled_in_course': is_enrolled_in_course,
+            'is_admin_of_course': is_admin_of_course,
+            'sessions': course_session_query[((page-1)*PER_PAGE):(page*PER_PAGE)],
+            'next_page': next_page,
+            'previous_page': previous_page,
+            'current_page': page
         }
     )
 

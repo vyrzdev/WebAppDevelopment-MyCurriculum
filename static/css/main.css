@@ -18,7 +18,6 @@ body {
 .right {
     display: flex;
     flex-direction: row;
-    width: 75%;
     justify-content: right;
     align-items: center;
     gap: 1em;
@@ -43,8 +42,52 @@ a:visited {
     color: antiquewhite;
 }
 
+h2 {
+    color: antiquewhite;
+}
 
+.course-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: antiquewhite;
+    padding: 0.5em;
+}
 
+.course-card-title {
+    color: black;
+}
+
+.course-card-right {
+    display: flex;
+    gap: 1em;
+}
+
+.course-card-link {
+    padding: 0.5em;
+    background-color: #003865;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.form-row-left {
+
+}
+
+.form-row-right {
+
+}
 
 
 

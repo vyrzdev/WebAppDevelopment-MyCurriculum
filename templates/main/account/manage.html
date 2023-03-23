@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block head_block %}
+    <title>Manage Account</title>
+    <style>
+        .manage-account-main {
+            padding: 1em;
+            margin: auto;
+            background-color: grey;
+            margin-top: 2em;
+
+        }
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    <div class="manage-account-main">
+        <h2>Manage Account</h2>
+        <form action="/account" method="post">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-row-left">
+                    <p>First Name:</p>
+                </div>
+                <div class="form-row-right">
+                    {{ form.first_name }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-row-left">
+                    <p>Last Name:</p>
+                </div>
+                <div class="form-row-right">
+                    {{ form.last_name }}
+                </div>
+            </div>
+            <input type="submit" value="Submit">
+        </form
+    </div>
+{% endblock %}

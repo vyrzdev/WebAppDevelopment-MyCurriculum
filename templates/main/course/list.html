@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<!--
+    Available vars:
+    courses <- (List[models.Course]) All Courses (paginated)
+    user <- (models.User) may be authenticated, may be anonymous
+    user.is_superuser <- (bool) Is Moderator
+    next_page <- next page int
+    previous_page <- previous page int
+    current_page <- current page int
+-->
+
+{% block head_block %}
+    <title>Courses</title>
+    <style>
+        .course-list-main {
+            padding: 1em;
+        }
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    <div class="course-list-main">
+        <h2>Courses</h2>
+        <div class="course-list">
+            {% for course in courses %}
+                <div class="course-card">
+                    <div class="course-card-left">
+                        <p class="course-card-title">
+                            {{ course.course_code }} - {{ course.title }}
+                        </p>
+                    </div>
+                    <div class="course-card-right">
+                        <a href="/course/{{ course.course_code }}" class="course-card-link">View</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="course-list-nav">
+            {% if previous_page %}
+                <a href="/course/{{ course.course_code }}?page={{ previous_page }}" class="course-card-link">Previous Page</a>
+            {% endif %}
+            <p>Page: {{ current_page }}</p>
+            {% if next_page %}
+                <a href="/course/{{ course.course_code }}?page={{ next_page }}" class="course-card-link">Next Page</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

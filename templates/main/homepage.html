@@ -3,6 +3,11 @@
 
 {% block head_block %}
     <title>MyCurriculum - Home</title>
+    <style>
+        .homepage-main {
+            padding: 1em;
+        }
+    </style>
 {% endblock %}
 
 {% block body_block %}
@@ -10,17 +15,30 @@
         {% if user.is_authenticated %}
             {% if admined_courses %}
                 <h2>Administrated Courses</h2>
-                {% for course in admined_courses %}
+                {% for admined_course in admined_courses %}
                     <div class="course-card">
-                        {{ course.course_code }}
+                        <div class="course-card-left">
+                            <p class="course-card-title">{{ admined_course.course.course_code }} - {{ admined_course.course.title }}</p>
+                        </div>
+                        <div class="course-card-right">
+                            <a href="/course/{{ admined_course.course.course_code }}" class="course-card-link">View</a>
+                            <a href="/course/{{ admined_course.course.course_code }}/manage" class="course-card-link">Manage</a>
+                        </div>
                     </div>
+
                 {% endfor %}
             {% endif %}
             {% if enrolled_courses %}
                 <h2>Enrolled Courses</h2>
                 {% for enrolled_course in enrolled_courses %}
                     <div class="course-card">
-                        {{ enrolled_course.course.course_code }}
+                        <div class="course-card-left">
+                            <p class="course-card-title">{{ enrolled_course.course.course_code }} - {{ enrolled_course.course.title }}</p>
+                        </div>
+                        <div class="course-card-right">
+                            <a href="/course/{{ enrolled_course.course.course_code }}" class="course-card-link">View</a>
+                            <a href="/course/{{ enrolled_course.course.course_code }}/unroll" class="course-card-link">Unroll</a>
+                        </div>
                     </div>
                 {% endfor %}
             {% else %}

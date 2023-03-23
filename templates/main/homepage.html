@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block head_block %}
+    <title>MyCurriculum - Home</title>
+{% endblock %}
+
+{% block body_block %}
+    <div class="homepage-main">
+        {% if user.is_authenticated %}
+            {% if admined_courses %}
+                <h2>Administrated Courses</h2>
+                {% for course in admined_courses %}
+                    <div class="course-card">
+                        {{ course.course_code }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if enrolled_courses %}
+                <h2>Enrolled Courses</h2>
+                {% for enrolled_course in enrolled_courses %}
+                    <div class="course-card">
+                        {{ enrolled_course.course.course_code }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>You aren't enrolled in any courses, visit <a href="/courses">Courses</a> to enroll.</p>
+            {% endif %}
+        {% else %}
+            <h2>Courses</h2>
+            {% if courses %}
+                <p>There are no courses in the database! Only Moderators can create new courses.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

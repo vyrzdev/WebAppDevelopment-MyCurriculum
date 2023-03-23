@@ -4,6 +4,9 @@ from . import views
 app_name = "MyCurriculum"
 
 urlpatterns = [
+    # TODO: Debug home route
+    path("", views.home.home, name='home-view'),
+
     # Authentication//Authorisation views
     path("auth/register", views.auth.register_view, name='register-view'),
     path("auth/login", views.auth.login_view, name='login-view'),

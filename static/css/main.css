@@ -1,46 +1,100 @@
 body {
-    margin: 0px;
-    font-family: "Arial";
-    background-color: lightslategrey;
-}
-header {
-    background-color: #003865;
-    color: white;
-    padding: 16px;
     display: flex;
-    align-content: center;
-    justify-content: space-between;
-}
-header h1 {
-    margin-block: 0px;
-}
-header nav ul {
-    margin: 0px;
-}
-header nav li {
-    display: inline-block;
-    margin-left: 4px;
-}
-header nav li a {
-    color: white;
-    font-size: 20px;
-}
-.error-text {
-    color: red;
-}
-.card {
-    background-color: white;
-    display: flex;
-    padding: 24px;
-}
-button, .submit-button, .link-button {
-    background-color: lightskyblue;
-    color: white;
-    border: none;
-    padding: 8px;
+    flex-direction: column;
+    background-color: lightslategray;
+    margin: 0;
 }
 
-.link-button {
-    text-decoration: none;
-    width: fit-content;
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #003865;
+    padding: 1em;
+    align-items: center;
 }
+
+.right {
+    display: flex;
+    flex-direction: row;
+    width: 75%;
+    justify-content: right;
+    align-items: center;
+    gap: 1em;
+}
+
+.nav-link {
+
+}
+
+a {
+    text-decoration: none;
+    color: antiquewhite;
+}
+
+a:hover {
+    text-decoration: none;
+    color: antiquewhite;
+}
+
+a:visited {
+    text-decoration: none;
+    color: antiquewhite;
+}
+
+
+
+
+
+
+
+
+
+
+/*body {*/
+/*    margin: 0px;*/
+/*    font-family: "Arial";*/
+/*    background-color: lightslategrey;*/
+/*}*/
+/*header {*/
+/*    background-color: #003865;*/
+/*    color: white;*/
+/*    padding: 16px;*/
+/*    display: flex;*/
+/*    align-content: center;*/
+/*    justify-content: space-between;*/
+/*}*/
+/*header h1 {*/
+/*    margin-block: 0px;*/
+/*}*/
+/*header nav ul {*/
+/*    margin: 0px;*/
+/*}*/
+/*header nav li {*/
+/*    display: inline-block;*/
+/*    margin-left: 4px;*/
+/*}*/
+/*header nav li a {*/
+/*    color: white;*/
+/*    font-size: 20px;*/
+/*}*/
+/*.error-text {*/
+/*    color: red;*/
+/*}*/
+/*.card {*/
+/*    background-color: white;*/
+/*    display: flex;*/
+/*    padding: 24px;*/
+/*}*/
+/*button, .submit-button, .link-button {*/
+/*    background-color: lightskyblue;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    padding: 8px;*/
+/*}*/
+
+/*.link-button {*/
+/*    text-decoration: none;*/
+/*    width: fit-content;*/
+/*}*/

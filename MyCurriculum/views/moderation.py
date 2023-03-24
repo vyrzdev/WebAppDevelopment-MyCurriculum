@@ -32,27 +32,39 @@ def moderation_index_view(request: HttpRequest):
     # Return simple rendered page.
     return render(
         request,
-        'moderation/index.html',
+        'main/moderation/index.html',
     )
 
 
 @require_http_methods(["GET"])
 @require_admin
 def moderation_manage_courses_view(request: HttpRequest):
-    # Get page number
     try:
-        page_number = int(request.GET.get('page', default=0))
+        page = int(request.GET.get('page', default=1))
     except ValueError:
-        page_number = 0
+        page = 1
+
+    courses_query = Course.objects.order_by('course_code')
+
+    if courses_query.count() > (PER_PAGE * page):
+        next_page = page + 1
+    else:
+        next_page = None
+
+    if page > 1:
+        previous_page = page - 1
+    else:
+        previous_page = None
 
     # Build queryset.
-    courses = Course.objects.all()[(page_number*PER_PAGE):((page_number*PER_PAGE)+PER_PAGE)]
-
     return render(
         request,
-        'moderation/courses.html',
+        'main/moderation/courses.html',
         context={
-            'courses': courses
+            'courses': courses_query.all()[(page-1)*PER_PAGE:(page*PER_PAGE)],
+            'next_page': next_page,
+            'previous_page': previous_page,
+            'current_page': page
         }
     )
 
@@ -64,7 +76,7 @@ def create_course_view(request: HttpRequest):
         create_course_form = CreateCourseForm()
         return render(
             request,
-            'moderation/create_course.html',
+            'main/moderation/create_course.html',
             context={
                 'create_course_form': create_course_form
             }
@@ -79,7 +91,7 @@ def create_course_view(request: HttpRequest):
         else:
             return render(
                 request,
-                'moderation/create_course.html',
+                'main/moderation/create_course.html',
                 context={
                     'create_course_form': create_course_form
                 }
@@ -101,11 +113,10 @@ def delete_course_view(request: HttpRequest, course_code: str):
 @require_http_methods(['GET'])
 @require_admin
 def manage_course_admins_view(request: HttpRequest, course_code: str):
-    # Get page number
     try:
-        page_number = int(request.GET.get('page', default=0))
+        page = int(request.GET.get('page', default=1))
     except ValueError:
-        page_number = 0
+        page = 1
 
     course_query = Course.objects.filter(pk=course_code)
     if not course_query.exists():
@@ -115,12 +126,25 @@ def manage_course_admins_view(request: HttpRequest, course_code: str):
     admin_query = CourseAdministrator.objects.filter(
         course=course
     )
+    if admin_query.count() > (PER_PAGE * page):
+        next_page = page + 1
+    else:
+        next_page = None
+
+    if page > 1:
+        previous_page = page - 1
+    else:
+        previous_page = None
+
     return render(
         request,
-        'moderation/manage_course_admins.html',
+        'main/moderation/manage_admins.html',
         context={
             'course': course,
-            'admins': admin_query.all()[(page_number*PER_PAGE):((page_number*PER_PAGE)+PER_PAGE)]
+            'admins': admin_query.all()[(page-1)*PER_PAGE:(page*PER_PAGE)],
+            'next_page': next_page,
+            'previous_page': previous_page,
+            'current_page': page
         }
     )
 

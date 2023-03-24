@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block head_block %}
+    <title>Moderation - Courses</title>
+    <style>
+        .courses-moderation-main {
+            padding: 1em;
+        }
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    <div class="courses-moderation-main">
+        <a href="/moderation/course/create" class="course-card-link">
+            Create Course
+        </a>
+        <div class="courses-list">
+            {% for course in courses %}
+                <div class="course-card">
+                    <div class="course-card-left">
+                        <p class="course-card-title">
+                            {{ course.course_code }} - {{ course.title }}
+                        </p>
+                    </div>
+                    <div class="course-card-right">
+                        <a href="/course/{{ course.course_code }}" class="course-card-link">View</a>
+                        <a href="/course/{{ course.course_code }}/manage" class="course-card-link">Manage</a>
+                        <a href="/moderation/course/{{ course.course_code }}/admins" class="course-card-link">Manage Admins</a>
+                        <a href="/moderation/course/{{ course.course_code }}/delete" class="course-card-link">Delete</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

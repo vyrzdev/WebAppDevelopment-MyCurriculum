@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<!--
+    Available vars:
+    form: forms.LoginForm
+-->
+
+{% block head_block %}
+    <title>Login</title>
+    <style>
+        .login-main {
+            padding: 1em;
+            margin: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    <div class="login-main">
+        <form action="/auth/login" method="post">
+            {% csrf_token %}
+            {{ form.as_table }}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock %}

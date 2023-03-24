@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block head_block %}
+    <title>Moderation - Manage Admins</title>
+    <style>
+        .manage-admins-main {
+            padding: 1em;
+        }
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    <div class="manage-admins-main">
+        <a href="/moderation/course/{{ course.course_code }}/admins/add" class="course-card-link">
+            Add Admin
+        </a>
+        <div class="admins-list">
+            {% if admins %}
+                {% for admin in admins %}
+                    <div class="course-card">
+                        <div class="course-card-left">
+                            <p class="course-card-title">{{ admin.user.student_code }} - {{ admin.user.get_full_name }}</p>
+                        </div>
+                        <div class="course-card-right">
+                            <a href="/moderation/course/{{ course.course_code }}/admins/remove/{{ admin.user.student_code }}">Remove Admin</a>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="course-admins-nav">
+                    {% if previous_page %}
+                        <a href="/moderation/course/{{ course.course_code }}/admins?page={{ previous_page }}">Previous Page</a>
+                    {% endif %}
+                    <p>Current Page: {{ current_page }}</p>
+                    {% if next_page %}
+                        <a href="/moderation/course/{{ course.course_code }}/admins?page={{ next_page }}">Next Page</a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>There are no admins for this course yet! Add one.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

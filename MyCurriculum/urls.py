@@ -14,8 +14,13 @@ urlpatterns = [
     path("courses", views.courses.course_list_view, name='course-list-view'),
     path("course/<str:course_code>/manage", views.courses.manage_course_view, name='manage-course-view'),
     path("course/<str:course_code>/student/<str:student_code>/remove", views.courses.unroll_student_view, name='unroll-student-view'),
+    path("moderation", views.moderation.moderation_index_view, name='moderation-index-view'),
+    path("moderation/courses", views.moderation.moderation_manage_courses_view, name='moderation-manage-courses-view'),
+    path("moderation/course/create", views.moderation.create_course_view, name='moderation-create-course-view'),
     path("moderation/course/<str:course_code>/delete", views.moderation.delete_course_view, name='delete-course-view'),
     path("moderation/course/<str:course_code>/admins", views.moderation.manage_course_admins_view, name='manage-course-admins-view'),
+    path("moderation/course/<str:course_code>/admins/add", views.moderation.add_course_admin_view,name='add-course-admins-view'),
+    path("moderation/course/<str:course_code>/admins/remove/<str:student_code>", views.moderation.remove_course_admin_view,name='remove-course-admins-view'),
 
     # Authentication//Authorisation views
     path("auth/register", views.auth.register_view, name='register-view'),

@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block head_block %}
+    <title>Moderation</title>
+    <style>
+        .moderation-index-main {
+            padding: 1em;
+        }
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    <div class="moderation-index-main">
+        <h2>Moderation - Index</h2>
+        <a href="/moderation/courses">Courses Moderation</a>
+    </div>
+{% endblock %}

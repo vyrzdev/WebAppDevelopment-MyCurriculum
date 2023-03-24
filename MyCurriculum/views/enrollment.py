@@ -23,14 +23,14 @@ def enroll_view(request: HttpRequest, course_code: str):
     )
 
     if enrollment_query.exists():
-        return HttpResponseRedirect(reverse('MyCurriculum:enroll-summary-view'))
+        return HttpResponseRedirect("/")
 
     new_enrollment = UserCourseEnrollment(
         user=user,
         course=course
     )
     new_enrollment.save()
-    return HttpResponseRedirect(reverse('MyCurriculum:enroll-summary-view'))
+    return HttpResponseRedirect("/")
 
 
 @require_http_methods(['GET'])
@@ -48,11 +48,11 @@ def unroll_view(request: HttpRequest, course_code: str):
         user=user
     )
     if not enrollment_query.exists():
-        return HttpResponseRedirect(reverse('MyCurriculum:enroll-summary-view'))
+        return HttpResponseRedirect("/")
 
     enrollment: UserCourseEnrollment = enrollment_query.first()
     enrollment.delete()
-    return HttpResponseRedirect(reverse('MyCurriculum:enroll-summary-view'))
+    return HttpResponseRedirect("/")
 
 
 @require_http_methods(['GET'])

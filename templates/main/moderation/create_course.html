@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 {% load static %}
 
 {% block title_block %}
@@ -7,7 +7,7 @@
 
 {% block body_block %}
     <div class="create-course-form">
-        <form action="/moderation/courses/create" method="post">
+        <form action="/moderation/course/create" method="post">
             {% csrf_token %}
             <table>
                 {{ create_course_form.as_table }}

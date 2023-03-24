@@ -23,7 +23,7 @@
                             <p class="course-card-title">{{ admin.user.student_code }} - {{ admin.user.get_full_name }}</p>
                         </div>
                         <div class="course-card-right">
-                            <a href="/moderation/course/{{ course.course_code }}/admins/remove/{{ admin.user.student_code }}">Remove Admin</a>
+                            <a href="/moderation/course/{{ course.course_code }}/admins/remove/{{ admin.user.student_code }}" class="course-card-link">Remove Admin</a>
                         </div>
                     </div>
                 {% endfor %}

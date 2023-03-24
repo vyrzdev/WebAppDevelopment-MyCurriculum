@@ -2,4 +2,20 @@
 {% load static %}
 
 {% block head_block %}
+    <title>Moderation - Add Course Admin</title>
+    <style>
+        .add-course-admin-main {
+            padding: 1em;
+        }
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    <div class="add-course-admin-main">
+        <form action="/moderation/course/{{ course.course_code }}/admins/add" method="post">
+            {% csrf_token %}
+            {{ add_course_admin_form.as_table }}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 {% endblock %}

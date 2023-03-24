@@ -161,7 +161,7 @@ def add_course_admin_view(request: HttpRequest, course_code: str):
         add_course_admin_form = CourseAdministratorForm()
         return render(
             request,
-            'moderation/add_course_admin.html',
+            'main/moderation/add_admin.html',
             context={
                 'add_course_admin_form': add_course_admin_form,
                 'course': course
@@ -180,7 +180,7 @@ def add_course_admin_view(request: HttpRequest, course_code: str):
                 add_course_admin_form.add_error("user_code", "User is already an admin of this course!")
                 return render(
                     request,
-                    'moderation/add_course_admin.html',
+                    'main/moderation/add_admin.html',
                     context={
                         'add_course_admin_form': add_course_admin_form,
                         'course': course
@@ -196,11 +196,11 @@ def add_course_admin_view(request: HttpRequest, course_code: str):
                 user.permission_level = User.ADMIN
                 user.save()
 
-            return HttpResponseRedirect(f'/moderation/course/manage_admins/{course.course_code}')
+            return HttpResponseRedirect(f'/moderation/course/{course.course_code}/admins')
         else:
             return render(
                 request,
-                'moderation/add_course_admin.html',
+                'main/moderation/add_admin.html',
                 context={
                     'add_course_admin_form': add_course_admin_form,
                     'course': course
@@ -229,4 +229,4 @@ def remove_course_admin_view(request: HttpRequest, course_code: str, student_cod
         raise Http404("User is not an admin of this course!")
 
     course_admin_query.delete()
-    return HttpResponseRedirect(f'/moderation/course/manage_admins/{course.course_code}')
+    return HttpResponseRedirect(f'/moderation/course/{course.course_code}/admins')

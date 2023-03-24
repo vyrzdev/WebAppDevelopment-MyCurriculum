@@ -192,10 +192,6 @@ def add_course_admin_view(request: HttpRequest, course_code: str):
                 course=course
             )
             new_administrator.save()
-            if (user.permission_level == User.STUDENT):
-                user.permission_level = User.ADMIN
-                user.save()
-
             return HttpResponseRedirect(f'/moderation/course/{course.course_code}/admins')
         else:
             return render(

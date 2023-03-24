@@ -1,6 +1,6 @@
 from django.http import HttpRequest
 from django.shortcuts import render
-from ..models import CourseAdministrator, UserCourseEnrollment
+from ..models import CourseAdministrator, UserCourseEnrollment, Course
 
 
 def home(request: HttpRequest):
@@ -23,10 +23,12 @@ def home(request: HttpRequest):
             }
             )
 
+    courses = Course.objects.all()
     return render(
         request,
         'main/homepage.html',
         context={
-            'user': request.user
+            'user': request.user,
+            'courses': courses
         }
     )

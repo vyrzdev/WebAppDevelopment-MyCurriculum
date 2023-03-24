@@ -1,0 +1,82 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<!--
+    Available vars:
+    course <- models.Course current course
+    enrollments <- (List[models.UserCourseEnrollment]) All Enrolled Users
+    manage_course_form <- forms.course.ManageCourseForm
+    user <- (models.User) will be authenticated
+    user.is_superuser <- (bool) Is Moderator
+    next_page <- next page int
+    previous_page <- previous page int
+    current_page <- current page int
+-->
+
+{% block head_block %}
+    <title>Manage Course</title>
+    <style>
+        .manage-course-main {
+            padding: 1em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1em;
+        }
+        .manage-course-form {
+            padding: 1em;
+            margin: auto;
+            background-color: grey;
+        }
+
+        .enrollments-list {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    <div class="manage-course-main">
+        <div class="manage-course-form">
+            <h2>Manage Course</h2>
+
+            <form action="/course/{{ course.course_code }}/manage" method="post">
+                {% csrf_token %}
+                {{ manage_course_form.as_table }}
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div class="enrollments-list">
+            <h2>Manage Students</h2>
+            {% if enrollments %}
+                {% for enrollment in enrollments %}
+                    <div class="course-card">
+                        <div class="course-card-left">
+                            <p class="course-card-title">
+                                {{ enrollment.user.get_full_name }}
+                            </p>
+                        </div>
+                        <div class="course-card-right">
+                            <a href="/course/{{ course.course_code }}/student/{{ enrollment.user.student_code }}/remove" class="course-card-link">
+                                Remove Student
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No students are enrolled!</p>
+            {% endif %}
+            <div class="enrollments-list-nav">
+                {% if previous_page %}
+                    <a href="/course/{{ course.course_code }}/manage?page={{ previous_page }}">Previous Page</a>
+                {% endif %}
+                <p>Current Page: {{ current_page }}</p>
+                {% if next_page %}
+                    <a href="/course/{{ course.course_code }}/manage?page={{ previous_page }}">Previous Page</a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -22,6 +22,9 @@
                     {% if user.is_superuser %}
                         <a href="/moderation" class="nav-link">Moderation</a>
                     {% endif %}
+                {% else %}
+                    <a href="/auth/login" class="nav-link">Login</a>
+                    <a href="/auth/register" class="nav-link">Register</a>
                 {% endif %}
             </div>
         </div>

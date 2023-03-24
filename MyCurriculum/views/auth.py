@@ -12,18 +12,18 @@ User: User = get_user_model()
 def logout_view(request: HttpRequest):
     if request.user.is_authenticated:
         logout(request)
-    return HttpResponseRedirect(reverse('MyCurriculum:login-view'))
+    return HttpResponseRedirect("/auth/login")
 
 
 @require_http_methods(['GET', 'POST'])
 def register_view(request: HttpRequest):
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("MyCurriculum:course-list-view"))
+        return HttpResponseRedirect("/")
     if request.method == "GET":
         form = RegistrationForm()
         return render(
             request,
-            "auth/register.html",
+            "main/auth/register.html",
             context={
                 'form': form
             }
@@ -49,11 +49,12 @@ def register_view(request: HttpRequest):
                 cleaned.get('password')
             )
             user.save()
-            return HttpResponseRedirect(reverse('MyCurriculum:login-view'))
+            login(request, user)
+            return HttpResponseRedirect('/')
         else:
             return render(
                 request,
-                "auth/register.html",
+                "main/auth/register.html",
                 context={
                     'form': form
                 }
@@ -65,12 +66,12 @@ def register_view(request: HttpRequest):
 @require_http_methods(['GET', 'POST'])
 def login_view(request: HttpRequest):
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("MyCurriculum:course-list-view"))
+        return HttpResponseRedirect('/')
     if request.method == "GET":
         form = LoginForm()
         return render(
             request,
-            'auth/login.html',
+            'main/auth/login.html',
             context={
                 'form': form
             }
@@ -88,18 +89,18 @@ def login_view(request: HttpRequest):
                 form.add_error('student_code', 'No users for this username/password combination.')
                 return render(
                     request,
-                    'auth/login.html',
+                    'main/auth/login.html',
                     context={
                         'form': form
                     }
                 )
             else:
                 login(request, user)
-                return HttpResponseRedirect(reverse("MyCurriculum:course-list-view"))
+                return HttpResponseRedirect('/')
         else:
             return render(
                 request,
-                'auth/login.html',
+                'main/auth/login.html',
                 context={
                     'form': form
                 }

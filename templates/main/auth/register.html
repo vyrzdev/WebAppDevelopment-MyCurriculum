@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<!--
+    Available vars:
+    form: forms.RegisterForm
+-->
+
+{% block head_block %}
+    <title>Register</title>
+    <style>
+        .register-main {
+            padding: 1em;
+            margin: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    <div class="register-main">
+        <form action="/auth/register" method="post">
+            {% csrf_token %}
+            {{ form.as_table }}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock %}

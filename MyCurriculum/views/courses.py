@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpRequest, Http404, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from ..models import Course, CourseAdministrator, CourseSession, UserCourseEnrollment
+from ..models import Course, CourseAdministrator, CourseSession, UserCourseEnrollment, User
 from ..forms import ManageCourseForm, AddCourseSessionForm
 
 PER_PAGE = 20
@@ -39,6 +39,7 @@ def course_list_view(request: HttpRequest):
             'current_page': page
         }
     )
+
 
 # DONE
 @require_http_methods(['GET'])
@@ -106,6 +107,10 @@ def course_view(request: HttpRequest, course_code: str):
 @require_http_methods(['GET', 'POST'])
 @login_required
 def manage_course_view(request: HttpRequest, course_code: str):
+    try:
+        page = int(request.GET.get('page', default=1))
+    except ValueError:
+        page = 1
     user = request.user
     course_query = Course.objects.filter(pk=course_code)
     if not course_query.exists():
@@ -120,14 +125,33 @@ def manage_course_view(request: HttpRequest, course_code: str):
         ).exists():
             raise Http404()
 
+    enrollment_query = UserCourseEnrollment.objects.filter(
+        course=course
+    )
+
+    if enrollment_query.count() > (PER_PAGE*page):
+        next_page = page+1
+    else:
+        next_page = None
+
+    if page > 1:
+        previous_page = page-1
+    else:
+        previous_page = None
+
     if request.method == "GET":
         manage_course_form = ManageCourseForm(instance=course)
         return render(
             request,
-            'courses/manage.html',
+            'main/course/manage.html',
             context={
+                'user': user,
                 'course': course,
-                'manage_course_form': manage_course_form
+                'manage_course_form': manage_course_form,
+                'enrollments': enrollment_query.all()[(page-1)*PER_PAGE:(page*PER_PAGE)],
+                'next_page': next_page,
+                'previous_page': previous_page,
+                'current_page': page
             }
         )
     else:
@@ -139,12 +163,55 @@ def manage_course_view(request: HttpRequest, course_code: str):
         else:
             return render(
                 request,
-                'courses/manage.html',
+                'main/course/manage.html',
                 context={
+                    'user': user,
                     'course': course,
-                    'manage_course_form': manage_course_form
+                    'manage_course_form': manage_course_form,
+                    'enrollments': enrollment_query.all()[(page - 1) * PER_PAGE:(page * PER_PAGE)],
+                    'next_page': next_page,
+                    'previous_page': previous_page,
+                    'current_page': page
                 }
             )
+
+@require_http_methods(['GET'])
+@login_required
+def unroll_student_view(request: HttpRequest, course_code: str, student_code: str):
+    user = request.user
+    course_query = Course.objects.filter(pk=course_code)
+    if not course_query.exists():
+        raise Http404("No course with that code!")
+
+    course = course_query.first()
+
+    if not user.is_superuser:
+        if not CourseAdministrator.objects.filter(
+            user=user,
+            course=course
+        ).exists():
+            raise Http404()
+
+    student_query = User.objects.filter(
+        pk=student_code
+    )
+    if not student_query.exists():
+        raise Http404("No student with that code!")
+
+    student = student_query.first()
+
+    enrollment_query = UserCourseEnrollment.objects.filter(
+        course=course,
+        user=student
+    )
+
+    if not enrollment_query.exists():
+        raise Http404("This student is not enrolled in this course!")
+
+    enrollment = enrollment_query.first()
+    enrollment.delete()
+    return HttpResponseRedirect(f"/course/{course.course_code}/manage")
+
 
 
 @require_http_methods(['GET', 'POST'])

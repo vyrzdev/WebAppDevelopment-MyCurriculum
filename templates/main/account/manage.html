@@ -17,6 +17,7 @@
 {% block body_block %}
     <div class="manage-account-main">
         <h2>Manage Account</h2>
+        <p>Student Code: {{ user.student_code }}</p>
         <form action="/account" method="post">
             {% csrf_token %}
             <div class="form-row">
@@ -36,6 +37,8 @@
                 </div>
             </div>
             <input type="submit" value="Submit">
-        </form
+        </form>
+        <br>
+        <a href="/auth/logout" class="course-card-link">Logout</a>
     </div>
 {% endblock %}

@@ -47,6 +47,18 @@
         {% else %}
             <h2>Courses</h2>
             {% if courses %}
+                 {% for course in courses %}
+                    <div class="course-card">
+                        <div class="course-card-left">
+                            <p class="course-card-title">{{ course.course.course_code }} - {{ course.course.title }}</p>
+                        </div>
+                        <div class="course-card-right">
+                            <a href="/course/{{ course.course.course_code }}" class="course-card-link">View</a>
+                            <a href="/course/{{ course.course.course_code }}/unroll" class="course-card-link">Unroll</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
                 <p>There are no courses in the database! Only Moderators can create new courses.</p>
             {% endif %}
         {% endif %}
